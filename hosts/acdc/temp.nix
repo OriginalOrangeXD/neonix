@@ -119,5 +119,3 @@ fonts ={
   services.gvfs.enable = true;
 
 }
-
-

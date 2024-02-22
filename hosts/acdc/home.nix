@@ -1,14 +1,14 @@
-{ desktop, inputs }:
-
-{ config, pkgs, ... }:
+{ config, pkgs,inputs, ... }:
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "robby";
-  home.homeDirectory = "/home/robby";
+  home.username = "ruxy";
+  home.homeDirectory = "/home/ruxy";
   home.stateVersion = "23.11"; 
 
-  imports = if desktop then [ ./deskHome.nix ] else [ ./lapHome.nix ];
+  imports = [
+    ../../home
+  ];
 
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
@@ -42,6 +42,16 @@
     #   org.gradle.console=verbose
     #   org.gradle.daemon.idletimeout=3600000
     # '';
+  };
+  programs.kitty = {
+      enable = true;
+      settings = {
+	  font_family = "Agave Nerd Font Mono Regular";
+          background_opacity = "0.9";
+          font_size = "17";
+	  enable_audio_bell="no";
+      };
+      theme = "Darkside";
   };
   programs.tmux = {
     enable = true;
@@ -167,12 +177,12 @@
 
 
       # configuration
-      inputs.self.packages.${pkgs.system}.robby-nvim
+      inputs.self.packages.${pkgs.system}.ruxy-nvim
     ];
 
     extraConfig = ''
       lua << EOF
-        require 'robby'.init()
+        require 'ruxy'.init()
       EOF
     '';
 
@@ -218,8 +228,4 @@
       yarn
     ];
   };
-
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
-  home.file.".background-image".source = ../../config/background-image;
 }

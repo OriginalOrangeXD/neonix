@@ -2,9 +2,12 @@
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "ruxy";
-  home.homeDirectory = "/home/ruxy";
+  home.username = "robby";
+  home.homeDirectory = "/home/robby";
   home.stateVersion = "23.11"; 
+  imports = [
+    ../../home
+  ];
 
   home.packages = [
     # # Adds the 'hello' command to your environment. It prints a friendly
@@ -227,5 +230,5 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-  home.file.".background-image".source = ../../config/background-image;
+  # home.file.".background-image".source = ../../config/background-image;
 }

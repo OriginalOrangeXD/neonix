@@ -1,13 +1,13 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-{ desktop, username}:
-
-{ pkgs, ... }:
+{ inputs, pkgs, ... }:
 
 {
   imports = [
-    ./harware.nix
+    ./hardware.nix
+    ./temp.nix
+    inputs.home-manager.nixosModules.default
   ];
   config = {
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -40,7 +40,7 @@
 
   # Enable sound.
   sound.enable = true;
-  hardware.pulseaudio.enable = true;
+  hardware.pulseaudio.enable = false;
 
 
   # Enable touchpad support (enabled default in most desktopManager).
@@ -90,6 +90,7 @@
     xfce.thunar
     arduino-cli
     flameshot
+    brightnessctl
     nerdfonts
     rust-analyzer
     arduino-language-server
@@ -97,6 +98,9 @@
     teensy-loader-cli
     platformio
     poetry
+    discord
+    bmon
+    obs-studio
     killall
     bat
     openssl
@@ -105,6 +109,18 @@
     tmux
     neovim
   ];
+   virtualisation.virtualbox.host.enable = true;
+   users.extraGroups.vboxusers.members = [ "robby" ];
+# rtkit is optional but recommended
+security.rtkit.enable = true;
+services.pipewire = {
+  enable = true;
+  alsa.enable = true;
+  alsa.support32Bit = true;
+  pulse.enable = true;
+  # If you want to use JACK applications, uncomment this
+  #jack.enable = true;
+};
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -123,15 +139,25 @@
   services.fprintd.enable =true;
   security.pam.services.login.fprintAuth = true;
   security.pam.services.xscreensaver.fprintAuth = true;
-  #virtualisation.libvirtd.enable = true;
+  virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
+  users.groups.libvirtd.members = [ "root" "robby"];
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
 
-  networking.firewall.allowedUDPPorts = [ 5008 ];
+  networking.firewall.allowedUDPPorts = [ 5000 5001 5002 5003 ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+  home-manager = {
+    extraSpecialArgs = { inherit inputs; };
+    users = {
+      "robby" = import ./home.nix;
+    };
+  };
+xdg.portal.wlr.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.config.common.default = "gtk";
 
   system.stateVersion = "23.11"; # Did you read the comment?
   };

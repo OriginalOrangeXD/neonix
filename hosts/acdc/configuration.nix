@@ -7,13 +7,20 @@
 {
   imports = [
     ./hardware.nix
-    ./temp.nix
+    ../../nixos
     inputs.home-manager.nixosModules.default
   ];
 
   config = {
     nixpkgs.hostPlatform.system = "x86_64-linux";
     system.stateVersion = "23.05";
+  nix.settings.trusted-users = [ "root" "ruxy" ];
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+
+  nixpkgs.config.allowUnfree = true;
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
 ### NETWORKING ###
     networking.hostName = "ruxy-nixos"; # Define your hostname.

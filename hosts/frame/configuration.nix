@@ -6,10 +6,11 @@
 {
   imports = [
     ./hardware.nix
-    ./temp.nix
+    ../../nixos
     inputs.home-manager.nixosModules.default
   ];
   config = {
+  nix.settings.trusted-users = [ "root" "robby" ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   nixpkgs.config.allowUnfree = true;

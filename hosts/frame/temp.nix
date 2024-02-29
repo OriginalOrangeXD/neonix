@@ -17,12 +17,6 @@
   time.timeZone = "America/New_York";
   virtualisation.docker.enable = true;
 
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    font = "Lat2-Terminus16";
-    useXkbConfig = true; # use xkbOptions in tty.
-  };
     # Enable sound.
   sound.enable = true;
 
@@ -39,7 +33,6 @@
     wget
     corectrl
     clang-tools
-    arduino
     nnn
     dmenu
     alacritty
@@ -48,7 +41,6 @@
     neofetch
     kitty
     gh
-    terminus_font
     starship
     git
     busybox
@@ -59,12 +51,8 @@
     unzip
     arduino-cli
     flameshot
-    nerdfonts
     rust-analyzer
-    arduino-language-server
     cachix
-    teensy-loader-cli
-    platformio
     poetry
     killall
     bat
@@ -77,43 +65,7 @@
     neovim
   ];
   
-programs.zsh = {
-	enable = true;
-	shellAliases = {
-		ll = "ls -l";
-		update = "sudo nixos-rebuild switch";
-	};
-  interactiveShellInit = ''
-	eval "$(starship init zsh)"
-    '';
- ohMyZsh = {
-    enable = true;
-    plugins = [ "git" "thefuck" ];
-  };
-};
-fonts ={
-    packages = 
-        with pkgs; [
-        (nerdfonts.override { fonts = [ "Agave" ]; })
-        ];
-          fontconfig = {
-    defaultFonts = {
-      monospace = [ "AgaveNerdFontMono-Regular" ];
-    };
-  };
-};
 
-    services.udev.extraRules = ''
-      # UDEV rules for Teensy USB devices
-      ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", ENV{ID_MM_DEVICE_IGNORE}="1"
-      ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789A]?", ENV{MTP_NO_PROBE}="1"
-      SUBSYSTEMS=="usb", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789ABCD]?", MODE:="0666"
-      KERNEL=="ttyACM*", ATTRS{idVendor}=="16c0", ATTRS{idProduct}=="04[789B]?", MODE:="0666"
-  '';
-  services.udev.packages = [ 
-      pkgs.platformio
-      pkgs.openocd
-  ];
   services.blueman.enable = true;
   services.gvfs.enable = true;
 

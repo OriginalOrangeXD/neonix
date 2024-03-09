@@ -86,27 +86,8 @@
 		}
     ];
   };
-    programs.zsh = {
-    enable = true;
-    enableAutosuggestions = true;
-    enableCompletion = true;
-    syntaxHighlighting = {
-      enable = true;
-    };
-
-    oh-my-zsh = {
-      enable = true;
-      plugins = [ "git" ];
-    };
-
-    shellAliases = {
-      cat = "bat";
-      wt = "git worktree";
-      vim = "nvim";
-    };
 
 
-  };
 
   # You can also manage environment variables but you will have to manually
   # source

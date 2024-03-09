@@ -1,12 +1,5 @@
 { pkgs, ... }:
 {
-  ohMyZsh = {
-    enable = true;
-    plugins = [ "git" "thefuck" ];
-  };
-  interactiveShellInit = ''
-	eval "$(starship init zsh)"
-  '';
   programs.zsh = {
 	enable = true;
 	shellAliases = {

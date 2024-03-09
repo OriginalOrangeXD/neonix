@@ -2,6 +2,7 @@
   imports = [
     ./font.nix
     ./postgres.nix
+    ./zsh.nix
     ./teensy.nix
   ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

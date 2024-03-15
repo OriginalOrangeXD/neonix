@@ -156,6 +156,10 @@
         };
       };
     };
+  xdg.portal.wlr.enable = true;
+  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.config.common.default = "gtk";
+
     services.openssh = {
       enable = true;
 # require public key authentication for better security

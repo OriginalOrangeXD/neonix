@@ -3,6 +3,8 @@
     ./font.nix
     ./postgres.nix
     ./zsh.nix
+    ./sound.nix
+    ./bluetooth.nix
     ./teensy.nix
   ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -46,9 +48,9 @@
     arduino-cli
     flameshot
     rust-analyzer
-    cachix
     poetry
     killall
+    cachix
     bat
     openssl
     gccgo13
@@ -56,6 +58,5 @@
     thefuck
     tmux
     nitrogen
-    neovim
   ];
 }

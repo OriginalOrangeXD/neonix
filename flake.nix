@@ -22,15 +22,7 @@
         pkgs = nixpkgs.legacyPackages.${system};
     in 
     flake-parts.lib.mkFlake { inherit inputs; } {
-	    systems = [ "aarch64-darwin" "aarch64-linux" "x86_64-darwin" "x86_64-linux" ];
-	    perSystem = { config, self', inputs', pkgs, system, ... }: {
-		    packages = {
-			    ruxy-nvim = pkgs.vimUtils.buildVimPlugin {
-				    name = "ruxy";
-				    src = ./config/nvim;
-			    };
-		    };
-	    };
+	systems = [ "aarch64-darwin" "aarch64-linux" "x86_64-darwin" "x86_64-linux" ];
 	flake = {
         nixosConfigurations = {
             acdc = nixpkgs.lib.nixosSystem {

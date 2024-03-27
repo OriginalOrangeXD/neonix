@@ -10,9 +10,9 @@
     inputs.home-manager.nixosModules.default
   ];
   config = {
+
   nix.settings.trusted-users = [ "root" "robby" ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
   nixpkgs.config.allowUnfree = true;
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -65,7 +65,6 @@
     kitty
     git
     firefox
-    neovim
     typst-lsp
     vim 
     go
@@ -98,6 +97,7 @@
     cachix
     teensy-loader-cli
     platformio
+    virtualboxWithExtpack
     poetry
     discord
     bmon
@@ -108,7 +108,6 @@
     keepassxc
     thefuck
     tmux
-    neovim
   ];
    virtualisation.virtualbox.host.enable = true;
    users.extraGroups.vboxusers.members = [ "robby" ];

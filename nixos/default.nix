@@ -56,6 +56,5 @@
     thefuck
     tmux
     nitrogen
-    neovim
   ];
 }

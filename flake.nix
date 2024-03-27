@@ -14,6 +14,9 @@
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };
+    ruxy-nvim = {
+      url = "github:OriginalOrangeXD/ruxy.nvim";
+    };
   };
 
   outputs = { flake-parts,self, nixpkgs, ... } @inputs:

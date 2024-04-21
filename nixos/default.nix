@@ -31,6 +31,7 @@
     clang-tools
     nnn
     dmenu
+    networkmanagerapplet
     alacritty
     emacs
     st

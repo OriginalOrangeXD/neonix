@@ -5,40 +5,27 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [ (modulesPath + "/profiles/qemu-guest.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usb_storage" "usbhid" "sd_mod" ];
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-  boot.initrd.kernelModules = [ 
-	"amdgpu"        
-	"vfio_pci"
-        "vfio"
-        "vfio_iommu_type1"
-        "vfio_virqfd"
-  ];
-  boot.kernelModules = [ "kvm-amd" "vfio" "vfio_iommu_type1" "vfio_pci" "vfio_virqfd" ];
-  boot.kernelParams = ["iommu=pt" "iommu=1" "amd_iommu=on" "amdgpu.ppfeaturemask=0xffffffff" ];
+  hardware.enableRedistributableFirmware = lib.mkDefault true;
+  boot.initrd.availableKernelModules = [ "uhci_hcd" "ehci_pci" "ahci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod" ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
+  boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
-  boot.extraModprobeConfig = "options vfio-pci ids=10de:2208,10de:1aef";
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/2b04b975-6c4b-4ada-8553-2b5115a87bb9";
+    { device = "/dev/disk/by-uuid/4016c1e3-eee6-45cd-8029-4dfa67b19138";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/2C9E-2099";
+    { device = "/dev/disk/by-uuid/D742-20D2";
       fsType = "vfat";
     };
 
-  fileSystems."/home/ruxy/virtual/drives" =
-    { device = "/dev/disk/by-uuid/62b8463a-7fa1-4353-8847-07411d0bf866";
-      fsType = "ext4";
-    };
-
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/d8c66226-9ac8-4ac1-8a16-f7fbdc3a8873"; }
+    [ { device = "/dev/disk/by-uuid/c6a53421-08d0-4440-8219-498518d0b641"; }
     ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
@@ -46,12 +33,7 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp7s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp6s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp6s18.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  hardware.bluetooth.enable = true;
-  hardware.pulseaudio.enable = true;
-  hardware.opentabletdriver.enable = true;
 }

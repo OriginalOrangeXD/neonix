@@ -3,6 +3,8 @@
     ./font.nix
     ./postgres.nix
     ./zsh.nix
+    ./sound.nix
+    ./bluetooth.nix
     ./teensy.nix
   ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -29,6 +31,7 @@
     clang-tools
     nnn
     dmenu
+    networkmanagerapplet
     alacritty
     emacs
     st
@@ -46,9 +49,9 @@
     arduino-cli
     flameshot
     rust-analyzer
-    cachix
     poetry
     killall
+    cachix
     bat
     openssl
     gccgo13

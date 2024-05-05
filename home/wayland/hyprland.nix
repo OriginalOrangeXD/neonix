@@ -4,7 +4,7 @@
   col_inactive_border = "4c566aaa";
 
   # Monitors
-  monitors = ["DP-3,2560x1440,0x0,1"];
+  monitors = ["DP-1,2560x1440,0x0,1"];
 in {
   config = {
     home.packages = [
@@ -33,7 +33,6 @@ in {
           ",preferred,auto,auto"
         ];
         exec-once = [
-          "waybar"
           "${pkgs.swww}/bin/swww init"
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
           "[workspace 1 silent] $terminal"
@@ -91,12 +90,7 @@ in {
             "^(Alacritty)$"
           ];
         };
-        "device:at-translated-set-2-keyboard" = {
-          kb_options = "ctrl:nocaps";
-        };
         windowrulev2 = [
-          "nomaximizerequest, class:.*"
-          
           # Pavucontrol
           "float, class:^(pavucontrol)$, title:^(Volume Control)$"
           "size 80% 85%, class:^(pavucontrol)$, title:^(Volume Control)$"

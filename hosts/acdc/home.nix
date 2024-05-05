@@ -2,8 +2,8 @@
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "ruxy";
-  home.homeDirectory = "/home/ruxy";
+  home.username = "robby";
+  home.homeDirectory = "/home/robby";
   home.stateVersion = "23.11"; 
 
   imports = [
@@ -102,111 +102,5 @@
   home.sessionVariables = {
     # EDITOR = "emacs";
   };
-  programs.neovim = {
-      enable = true;
-
-      plugins = with pkgs; [
-      # languages
-      vimPlugins.nvim-lspconfig
-      vimPlugins.nvim-treesitter.withAllGrammars
-      vimPlugins.nvim-treesitter-parsers.templ
-      vimPlugins.rust-tools-nvim
-      vimPlugins.clangd_extensions-nvim
-      vimPlugins.vimtex
-
-      # telescope
-      vimPlugins.plenary-nvim
-      vimPlugins.popup-nvim
-      vimPlugins.telescope-nvim
-
-      # theme
-      vimPlugins.catppuccin-nvim
-      vimPlugins.onedarkpro-nvim
-
-      # floaterm
-      vimPlugins.vim-floaterm
-      
-      # PRIME
-      vimPlugins.harpoon
-
-      vimPlugins.lsp-zero-nvim
-      vimPlugins.nvim-cmp
-      vimPlugins.cmp-nvim-lsp
-
-      arduino-language-server
-      lua-language-server
-
-      vimPlugins.vim-tmux-navigator
-      vimPlugins.gitsigns-nvim
-      vimPlugins.lualine-nvim
-      vimPlugins.nerdcommenter
-      vimPlugins.noice-nvim
-      vimPlugins.nui-nvim
-      vimPlugins.nvim-colorizer-lua
-      vimPlugins.nvim-notify
-      vimPlugins.nvim-treesitter-context
-      vimPlugins.rainbow-delimiters-nvim
-      vimPlugins.omnisharp-extended-lsp-nvim
-      #vimPlugins.nvim-web-devicons # https://github.com/intel/intel-one-mono/issues/9
-      vimPlugins.mason-nvim
-      vimPlugins.mason-lspconfig-nvim
-      vimPlugins.nvim-cmp
-      vimPlugins.cmp-nvim-lsp
-      vimPlugins.luasnip
-      vimPlugins.cmp_luasnip
-      vimPlugins.nvchad
-
-
-      # configuration
-      inputs.self.packages.${pkgs.system}.ruxy-nvim
-    ];
-
-    extraConfig = ''
-      lua << EOF
-        require 'ruxy'.init()
-      EOF
-    '';
-
-    extraPackages = with pkgs; [
-      # languages
-      jsonnet
-      nodejs
-      python312
-      #python312Packages.pip
-      rustc
-
-      # language servers
-      omnisharp-roslyn
-      gopls
-      haskell-language-server
-      jsonnet-language-server
-      lua-language-server
-      nil
-      nodePackages."bash-language-server"
-      nodePackages."diagnostic-languageserver"
-      nodePackages."dockerfile-language-server-nodejs"
-      nodePackages."pyright"
-      nodePackages."typescript"
-      nodePackages."typescript-language-server"
-      nodePackages."vscode-langservers-extracted"
-      nodePackages."yaml-language-server"
-      rust-analyzer
-      terraform-ls
-
-      # formatters
-      gofumpt
-      golines
-      nixpkgs-fmt
-      #python312Packages.black
-      rustfmt
-
-      # tools
-      cargo
-      gcc
-      gcc_multi
-      ghc
-      lazydocker
-      yarn
-    ];
-  };
+  programs.home-manager.enable = true;
 }

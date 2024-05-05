@@ -32,6 +32,7 @@
     nnn
     dmenu
     networkmanagerapplet
+    xwaylandvideobridge
     alacritty
     emacs
     st

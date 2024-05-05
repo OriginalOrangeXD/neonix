@@ -33,7 +33,7 @@ in {
           ",preferred,auto,auto"
         ];
         exec-once = [
-          "${pkgs.swww}/bin/swww init"
+          "${pkgs.swww}/bin/swww-daemon"
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
           "[workspace 1 silent] $terminal"
         ];
@@ -85,6 +85,7 @@ in {
         misc = {
           # Anime lady hehe
           # force_default_wallpaper = -1;
+	  disable_hyprland_logo = true;
           enable_swallow = true;
           swallow_regex = [
             "^(Alacritty)$"

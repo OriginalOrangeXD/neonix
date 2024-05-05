@@ -12,9 +12,13 @@
         	min-height: 30px;
         }
 
-        window#waybar {
-        	background: transparent;
-        }
+	window#waybar {
+	    background-color: rgba(43, 48, 59, 0.5);
+	    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
+	    color: #ffffff;
+	    transition-property: background-color;
+	    transition-duration: .5s;
+	}
 
         #workspaces {
         	background-color: transparent;
@@ -63,6 +67,9 @@
         #memory {
         	color: #008000;
         }
+        #water_temperature {
+        	color: #008000;
+        }
 
         #disk {
         	color: #A8A8A8;
@@ -88,10 +95,6 @@
         #clock {
         	color: #00ba69;
         }
-      window#waybar {
-        background: transparent;
-        border-bottom: none;
-      }
     '';
     settings = [{
       height = 30;

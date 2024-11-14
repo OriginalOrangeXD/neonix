@@ -108,15 +108,16 @@
         "network"
         "cpu"
         "memory"
-        "custom/water_temperature"
+        "temperature"
+        "language"
         "clock"
         "tray"
       ];
       "custom/water_temperature" = {
         critical-threshold = 36;
         format = "{}°C {}";
-	interval = 1;
-	exec= "$HOME/scripts/water_temp.sh";
+        interval = 1;
+        exec= "$HOME/scripts/water_temp.sh";
       };
       clock = {
         format-alt = "{:%Y-%m-%d}";
@@ -131,9 +132,7 @@
         interval = 1;
         format-alt = "{ifname}: {ipaddr}/{cidr}";
         format-disconnected = "Disconnected ⚠";
-        format-ethernet = "{ifname}: {ipaddr}/{cidr} 󰈀  up: {bandwidthUpBits} down: {bandwidthDownBits}";
         format-linked = "{ifname} (No IP) ";
-        format-wifi = "{essid} ({signalStrength}%) ";
       };
       pulseaudio = {
         format = "{volume}% {icon} {format_source}";
@@ -153,6 +152,13 @@
         format-source-muted = "";
         on-click = "pavucontrol";
       };
+      language = {
+            format-dh = "  dh";
+            format-en = "  ru";
+            keyboard-name = "at-translated-set-2-keyboard";
+            on-click = "hyprctl switchxkblayout at-translated-set-2-keyboard next";
+      };
+
       temperature = {
         critical-threshold = 80;
         format = "{temperatureC}°C {icon}";

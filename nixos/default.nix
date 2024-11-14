@@ -10,6 +10,9 @@
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
   services.usbmuxd.enable = true;	
+  services.tailscale.enable = true;
+  programs.adb.enable = true;
+
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -18,8 +21,20 @@
   # Set your time zone.
   time.timeZone = "America/New_York";
   environment.systemPackages = with pkgs; [
+    picotool
+    lynx
+    socat
+    jq
+    swww
+    qmk
+    qmk_hid
+    qmk-udev-rules
+    unixtools.procps
+    obsidian
+    nextcloud-client
     typst-lsp
     vim 
+    libva
     gcc_multi
     docker
     go
@@ -50,6 +65,7 @@
     arduino-cli
     flameshot
     rust-analyzer
+    hyprpaper
     poetry
     killall
     cachix
@@ -61,4 +77,16 @@
     tmux
     nitrogen
   ];
+  services.xserver = {
+    windowManager.leftwm.enable = true;
+    layout = "us,dh";
+    xkb = {
+      extraLayouts.dh = {
+        description = "Colemak-DH ergo";
+        languages = ["eng"];
+        symbolsFile = ../symbols/colemak_dh;
+    };
+   options = "terminate:ctrl_alt_bksp";
+    };
+  };
 }

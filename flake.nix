@@ -6,7 +6,7 @@
       url = "github:numtide/flake-utils";
     };
     nixpkgs-stable = {
-      url = "github:nixos/nixpkgs/nixos-23.11";
+      url = "github:nixos/nixpkgs/nixos-unstable";
     }; 
     home-manager = {
       url = "github:nix-community/home-manager";

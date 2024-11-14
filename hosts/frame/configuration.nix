@@ -9,7 +9,6 @@
     ../../nixos
     inputs.home-manager.nixosModules.default
   ];
-  config = {
 
   nix.settings.trusted-users = [ "root" "robby" ];
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -17,6 +16,8 @@
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  nix.settings.extra-platforms = [ "aarch64-linux" ];
 
   networking.hostName = "ruxy-lap"; # Define your hostname.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
@@ -29,9 +30,12 @@
     # keyMap = "us";
     useXkbConfig = true; # use xkb.options in tty.
   };
+  services.udev.packages = [
+    pkgs.android-udev-rules
+  ];
 
   # Enable the X11 windowing system.
-  # services.xserver.enable = true;
+  #services.xserver.enable = true;
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -47,24 +51,29 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
+    virtualisation.docker.rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.robby = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "libvirtd" "networkmanager" ]; # Enable ‘sudo’ for the user.
+    extraGroups = [ "wheel" "docker" "libvirtd" "networkmanager" "adbusers" "kvm" ]; # Enable ‘sudo’ for the user.
     packages = with pkgs; [
-      firefox
       tree
     ];
   };
+  #services.xserver.displayManager.startx.enable = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    godot_4
     wget
     kitty
     git
-    firefox
+    floorp
     typst-lsp
     vim 
     go
@@ -92,6 +101,7 @@
     flameshot
     brightnessctl
     nerdfonts
+    v4l-utils
     rust-analyzer
     arduino-language-server
     cachix
@@ -107,10 +117,20 @@
     openssl
     keepassxc
     thefuck
+    libva-utils
+    libva
+    immersed-vr
     tmux
   ];
+  hardware.opengl = { 
+	  enable = true;
+	  driSupport = true;
+	  driSupport32Bit = true; 
+	  extraPackages = with pkgs; [ libva vaapiVdpau libvdpau-va-gl ]; 
+  }; 
    virtualisation.virtualbox.host.enable = true;
    users.extraGroups.vboxusers.members = [ "robby" ];
+   users.defaultUserShell = pkgs.zsh;
 # rtkit is optional but recommended
 security.rtkit.enable = true;
 services.pipewire = {
@@ -129,7 +149,11 @@ services.pipewire = {
   #   enable = true;
   #   enableSSHSupport = true;
   # };
-  programs.hyprland.enable=true;
+    programs.hyprland = {
+        enable=true;
+        package = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.hyprland;
+        portalPackage = inputs.hyprland.packages.${pkgs.stdenv.hostPlatform.system}.xdg-desktop-portal-hyprland;
+    };
 
   # List services that you want to enable:
 
@@ -146,21 +170,25 @@ services.pipewire = {
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
 
-  networking.firewall.allowedUDPPorts = [ 5000 5001 5002 5003 ];
+ networking.firewall.allowedUDPPorts = [ 5000 5001 5002 5003 21000 21013 21010 10700 47998 48000];
+ networking.firewall.allowedTCPPorts = [ 21000 21013 21010 10700];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  #networking.firewall.enable = false;
   home-manager = {
     extraSpecialArgs = { inherit inputs; };
     users = {
       "robby" = import ./home.nix;
     };
   };
-xdg.portal.wlr.enable = true;
-  xdg.portal.extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  xdg.portal.wlr.enable = true;
+  xdg.portal.enable=true;
+  xdg.portal.extraPortals = [
+      pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-wlr
+    ];
   xdg.portal.config.common.default = "gtk";
 
-  system.stateVersion = "23.11"; # Did you read the comment?
-  };
+  system.stateVersion = "24.05"; # Did you read the comment?
 
 }
 

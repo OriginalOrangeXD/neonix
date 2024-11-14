@@ -2,19 +2,18 @@
   col_active_border1 = "5e81acee";
   col_active_border2 = "81a1c1ee";
   col_inactive_border = "4c566aaa";
-
-  # Monitors
-  monitors = ["DP-1,2560x1440,0x0,1"];
 in {
   config = {
     home.packages = [
+      pkgs.pyprland
       pkgs.killall
+      pkgs.hyprlock
       # Audio Control
       pkgs.pavucontrol
-      pkgs.swww
       pkgs.wl-clipboard
     ];
     
+
     wayland.windowManager.hyprland = {
       enable = true;
       ## Bleeding edge Hyprland
@@ -26,31 +25,34 @@ in {
         "$menu-drun" = "rofi -show drun";
         "$menu-run" = "rofi -show run";
         "$MOD" = "SUPER";
+        "$LAPTOP_KB_ENABLED" = true;
         env = [
           "XCURSOR_SIZE,24"
         ];
-        monitor = monitors ++ [
-          ",preferred,auto,auto"
-        ];
+        monitor = "eDP-1, 2256x1504@60Hz, 0x0, 1 ";
+        device = {
+          name = "at-translated-set-2-keyboard";
+          enabled = "$LAPTOP_KB_ENABLED";
+        };
         exec-once = [
-          "${pkgs.swww}/bin/swww-daemon"
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
+          "pypr"
           "[workspace 1 silent] $terminal"
+          "hyprpaper"
+          "swww-daemon"
+          "/home/robby/scripts/monitor-switch.sh daemon"
+          "sleep 1.5 && swww img /home/robby/flake/wallpapers/moon.jpg"
         ];
+        input = {
+          kb_layout = ["dh" "us"];
+          kb_variant= ["" ""];
+        };
         general = {
           gaps_in = 5;
           gaps_out = 5;
           border_size = 2;
           layout = "master";
           allow_tearing = false;
-        };
-        input = {
-          kb_layout = "us";
-          follow_mouse = 2;
-          touchpad = {
-            natural_scroll = "no";
-          };
-          sensitivity = 0;
         };
         decoration = {
           rounding = 10;
@@ -147,6 +149,15 @@ in {
           "$MOD SHIFT, 4, movetoworkspace, 4"
           "$MOD SHIFT, 5, movetoworkspace, 5"
           "$MOD SHIFT, 6, movetoworkspace, 6"
+          ## pyperland
+          "$MOD SHIFT, Z, exec, pypr zoom"
+          "$MOD ALT, P,exec, pypr toggle_dpms"
+          "$MOD SHIFT, O, exec, pypr shift_monitors +1"
+          "$MOD, B, exec, pypr expose"
+          "$MOD, K, exec, pypr change_workspace +1"
+          "$MOD, J, exec, pypr change_workspace -1"
+          "$MOD,A,exec,pypr toggle term"
+          "$MOD,V,exec,pypr toggle volume"
         ];
         
         binde = [
@@ -161,6 +172,7 @@ in {
           "$MOD, mouse:272, movewindow"
           "$MOD, mouse:273, resizewindow"
         ];
+        bindl = [];
       };
     };
   };

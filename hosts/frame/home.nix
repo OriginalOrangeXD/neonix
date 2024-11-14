@@ -4,7 +4,7 @@
   # manage.
   home.username = "robby";
   home.homeDirectory = "/home/robby";
-  home.stateVersion = "23.11"; 
+  home.stateVersion = "24.05"; 
   imports = [
     ../../home
   ];
@@ -46,16 +46,18 @@
       enable = true;
       settings = {
 	  font_family = "Agave Nerd Font Mono Regular";
-          background_opacity = "0.9";
-          font_size = "12";
+          background_opacity = "0.8";
+          font_size = "16";
 	  enable_audio_bell="no";
       };
-      theme = "Darkside";
+      themeFile = "Darkside";
   };
   programs.tmux = {
     enable = true;
     clock24 = true;
     extraConfig = ''
+      unbind C-b
+      set-option -g prefix C-a
       set-option -a terminal-overrides ",*256col*:RGB"
       setw -g mode-keys vi
       bind-key h select-pane -L
@@ -87,7 +89,7 @@
   };
     programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable= true;
     enableCompletion = true;
     syntaxHighlighting = {
       enable = true;

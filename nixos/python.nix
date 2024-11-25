@@ -16,6 +16,7 @@ in
 {
 environment.systemPackages = with pkgs; [
   (python.withPackages(ps: with ps; [
+    python312Packages.tkinter
     opencv4
   ]))
 ];

@@ -44,7 +44,6 @@
   services.printing.enable = true;
 
   # Enable sound.
-  sound.enable = true;
   hardware.pulseaudio.enable = false;
 
 
@@ -124,7 +123,6 @@
   ];
   hardware.opengl = { 
 	  enable = true;
-	  driSupport = true;
 	  driSupport32Bit = true; 
 	  extraPackages = with pkgs; [ libva vaapiVdpau libvdpau-va-gl ]; 
   }; 
@@ -188,7 +186,7 @@ services.pipewire = {
     ];
   xdg.portal.config.common.default = "gtk";
 
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 
 }
 

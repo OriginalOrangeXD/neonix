@@ -5,137 +5,143 @@
     enable = true;
     systemd.enable = true;
     style = ''
-      ${builtins.readFile "${pkgs.waybar}/etc/xdg/waybar/style.css"}
         * {
         	font-family: 'M+1Code Nerd Font';
         	font-size: 16px;
-        	min-height: 30px;
+          color: #ebdbb2;
+        }
+        #waybar {
+          background: transparent;
+          border-radius: 5px;
         }
 
-	window#waybar {
-	    background-color: rgba(43, 48, 59, 0.5);
-	    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
-	    color: #ffffff;
-	    transition-property: background-color;
-	    transition-duration: .5s;
-	}
-
-        #workspaces {
-        	background-color: transparent;
-        	color: #0d74bd;
-        	margin-top: 15px;
-        	margin-right: 15px;
-        	padding-top: 1px;
-        	padding-left: 10px;
-        	padding-right: 10px;
+        #workspaces{
+         border-radius:5px;
+          box-shadow:0px 0px black;
         }
+        window#waybar {
+    background: transparent;
+}
 
-        #custom-nix {
-        	background-color: transparent;
-        	color: #0a60ab;
-        	margin-top: 15px;
-        	margin-right: 15px;
-        	padding-top: 1px;
-        	padding-left: 10px;
-        	padding-right: 10px;
-        }
 
-        #custom-nix {
-        	font-size: 20px;
-        	margin-left: 15px;
-        	color: #0a60ab;
-        }
+#workspaces,
+#network,
+#backlight,
+#wireplumber,
+#clock,
+#battery,
+#idle_inhibitor,
+#custom-lizzy,
+#bluetooth,
+#custom-power,
+#custom-notification{
+  margin-left:5px;
+  margin-right: 5px;
+  background: #141b1e;
+  border-radius:5px 0px 0px 5px;
+  padding-left:10px;
+  padding-right: 10px;
+}
+        
+#network,
+#wireplumber,
+#backlight,
+#bluetooth{
+  margin:0px;
+}
+#backlight{
+  border-radius: 0px 5px 5px 0px;
+}
+#network,
+#bluetooth{
+  border-radius:0px;
+}
 
-        #workspaces button {
-        	background: transparent;
-        	color: #0d74bd;
-        }
+#idle_inhibitor,
+#clock,
+#workspaces,
+#custom-lizzy,
+#custom-power,
+#battery,
+#custom-notification{
+  border-radius: 5px;
+}
 
-        #cpu, #memory, #temperature, #disk, #clock, #backlight, #pulseaudio, #bluetooth, #network, #battery, #custom-power {
-        	background-color: transparent;
-        	color: #00ba69;
-        	margin-top: 15px;
-        	padding-left: 10px;
-        	padding-right: 10px;
-        	margin-right: 15px;
-        }
+#idle_inhibitor.activated{
+  color:#e57474;
+}
 
-        #cpu {
-        	color: #FFD700;
-        }
-
-        #memory {
-        	color: #008000;
-        }
-        #water_temperature {
-        	color: #008000;
-        }
-
-        #disk {
-        	color: #A8A8A8;
-
-        }
-
-        #backlight, #bluetooth {
-        	color: #0056A3;
-        	padding-right: 5px;
-        	margin-right: 0
-        }
-
-        #network {
-        	color: #10a140;
-        	padding-left: 5px;
-        }
-
-        #pulseaudio {
-        	color: #ba23d9;
-        	padding-left: 5px;
-        }
-
-        #clock {
-        	color: #00ba69;
-        }
+#custom-power{
+color:#689d6a;
+margin-right:10px;
+padding-right:14px;
+}
     '';
-    settings = [{
-      height = 30;
+      settings = [{
       layer = "top";
       position = "bottom";
-      tray = { spacing = 10; };
-      modules-center = [ "hyprland/window" ];
+      reload_style_on_change = true;
+
+      height = 20;
+      margin-bottom = 5;
+      margin-left = 5;
+      margin-right = 5;
+      modules-center = [ "clock" ];
       modules-left = [ "hyprland/workspaces" "hyprland/mode" ];
       modules-right = [
-        "pulseaudio"
+        "custom/notification"
+        "wireplumber"
         "network"
-        "cpu"
-        "memory"
-        "temperature"
-        "language"
-        "clock"
-        "tray"
+        "backlight"
+        "clock#time"
+        "battery"
       ];
-      "custom/water_temperature" = {
-        critical-threshold = 36;
-        format = "{}°C {}";
-        interval = 1;
-        exec= "$HOME/scripts/water_temp.sh";
+      "hyprland/workspaces" = {
+        all-outputs = true;
+		    format = "{icon}";
+		    format-icons= {
+		        "1"= "";
+		        "2"= "";
+		        "3"= "󰢔";
+		        "4"= "";
+		        "5"= "󰺿";
+        };
       };
+      backlight = {
+        format = "<span color='#689d6a'>󱩖 </span>  {percent}%   ";
+        device = "intel_backlight";
+        on-scroll-down = "brightnessctl s 5%-";
+        on-scroll-up = "brightnessctl s +5%";
+      };
+      
       clock = {
-        format-alt = "{:%Y-%m-%d}";
-        tooltip-format = "{:%Y-%m-%d | %H:%M}";
+        format= "<span color='#b16286'></span>  {:%A %e %B}";
       };
       cpu = {
         format = "{usage}% ";
         tooltip = false;
       };
       memory = { format = "{}% "; };
+        # network = {
+        #   interval = 1;
+        #   format-alt = "{ifname}: {ipaddr}/{cidr}";
+        #   format-disconnected = "Disconnected ⚠";
+        #   format-linked = "{ifname} (No IP) ";
+        # };
       network = {
-        interval = 1;
-        format-alt = "{ifname}: {ipaddr}/{cidr}";
-        format-disconnected = "Disconnected ⚠";
-        format-linked = "{ifname} (No IP) ";
+        format-wifi = "<span color='#458588'></span>   {essid}  ";
+        format-etherne = "<span color='#458588'></span>   {ifname}";
+        format-linked = "<span color='#458588'></span>  {ifname} (No IP)";
+        format= "<span color='#458588'></span>  Connected";
+        format-disconnected= "<span color='#458588'></span>  Disconnected";
+        interval= 60;
+        on-click="~/.config/rofi/rofi-wifi-menu.sh";
       };
-      pulseaudio = {
-        format = "{volume}% {icon} {format_source}";
+      wireplumber = {
+        on-click = "pavucontrol";
+        on-click-right = "amixer sset Master toggle 1>/dev/null";
+        format = "<span foreground='#e5c76b'>{icon}</span>  {volume}%";
+        format-muted =  "<span foreground='#e5c76b'></span>  Muted";
         format-bluetooth = "{volume}% {icon} {format_source}";
         format-bluetooth-muted = " {icon} {format_source}";
         format-icons = {
@@ -147,10 +153,26 @@
           phone = "";
           portable = "";
         };
-        format-muted = " {format_source}";
         format-source = "{volume}% ";
         format-source-muted = "";
-        on-click = "pavucontrol";
+      };
+      battery = {
+        interval= 2;
+        states = {
+            good = 95;
+            warning = 30;
+            critical = 15;
+        };
+        format = "<span color='#689d6a'>{icon}</span>   {capacity}%";
+        format-charging = "<span color='#689d6a'></span>  {capacity}%";
+        format-plugged  = "<span color='#689d6a'></span>  {capacity}%";
+        format-icons = [
+            ""
+            ""
+            ""
+            ""
+            ""
+        ];
       };
       language = {
             format-dh = "  dh";
@@ -164,6 +186,10 @@
         format = "{temperatureC}°C {icon}";
         format-icons = [ "" "" "" ];
       };
+     "custom/notification" ={
+    	format = "󱅫";
+    	on-click = "swaync-client -t -sw";
+    };
     }];
   };
 };

@@ -22,6 +22,9 @@
   time.timeZone = "America/New_York";
   environment.systemPackages = with pkgs; [
     atkinson-hyperlegible
+    kanshi
+    alsa-utils
+    swaynotificationcenter
     picotool
     lynx
     socat

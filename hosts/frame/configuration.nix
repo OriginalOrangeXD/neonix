@@ -68,7 +68,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    godot_4
     wget
     kitty
     git
@@ -118,7 +117,6 @@
     thefuck
     libva-utils
     libva
-    immersed-vr
     tmux
   ];
   hardware.opengl = { 

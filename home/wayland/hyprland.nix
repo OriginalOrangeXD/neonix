@@ -1,10 +1,8 @@
-{ config, pkgs, lib, inputs, ... }: let
-  col_active_border1 = "5e81acee";
-  col_active_border2 = "81a1c1ee";
-  col_inactive_border = "4c566aaa";
-in {
+{ config, pkgs, lib, inputs, ... }: 
+{
   config = {
     home.packages = [
+      pkgs.swaynotificationcenter
       pkgs.pyprland
       pkgs.killall
       pkgs.hyprlock
@@ -29,23 +27,24 @@ in {
         env = [
           "XCURSOR_SIZE,24"
         ];
-        monitor = "eDP-1, 2256x1504@60Hz, 0x0, 1 ";
+        monitor = "eDP-1, 2256x1504@60Hz, 0x0, 1.333333 ";
         device = {
           name = "at-translated-set-2-keyboard";
           enabled = "$LAPTOP_KB_ENABLED";
         };
         exec-once = [
           "${pkgs.networkmanagerapplet}/bin/nm-applet"
+          "kanshi"
           "pypr"
           "[workspace 1 silent] $terminal"
           "hyprpaper"
           "swww-daemon"
           "/home/robby/scripts/monitor-switch.sh daemon"
-          "sleep 1.5 && swww img /home/robby/flake/wallpapers/moon.jpg"
+          "sleep 1.5 && swww img /home/robby/flake/wallpapers/wall_secondary.png"
         ];
         input = {
-          kb_layout = ["dh" "us"];
-          kb_variant= ["" ""];
+          kb_layout = ["dh"];
+          kb_variant= [""];
         };
         general = {
           gaps_in = 5;
@@ -61,7 +60,6 @@ in {
             size = 5;
             passes = 2;
           };
-          drop_shadow = "no";
         };
         animations = {
           enabled = "yes";
@@ -78,10 +76,6 @@ in {
         dwindle = {
           pseudotile = "yes";
           preserve_split = "yes";
-        };
-        master = {
-          new_is_master = true;
-          orientation = "top";
         };
         gestures.workspace_swipe = "off";
         misc = {
@@ -141,6 +135,10 @@ in {
           "$MOD, 4, workspace, 4"
           "$MOD, 5, workspace, 5"
           "$MOD, 6, workspace, 6"
+          "$MOD, 7, workspace, 7"
+          "$MOD, 8, workspace, 8"
+          "$MOD, 9, workspace, 9"
+          "$MOD, 0, workspace, 0"
         
           # Move active window to a workspace with mainMod + SHIFT + [0-9]
           "$MOD SHIFT, 1, movetoworkspace, 1"
@@ -149,6 +147,10 @@ in {
           "$MOD SHIFT, 4, movetoworkspace, 4"
           "$MOD SHIFT, 5, movetoworkspace, 5"
           "$MOD SHIFT, 6, movetoworkspace, 6"
+          "$MOD SHIFT, 7, movetoworkspace, 7"
+          "$MOD SHIFT, 8, movetoworkspace, 8"
+          "$MOD SHIFT, 9, movetoworkspace, 9"
+          "$MOD SHIFT, 0, movetoworkspace, 0"
           ## pyperland
           "$MOD SHIFT, Z, exec, pypr zoom"
           "$MOD ALT, P,exec, pypr toggle_dpms"

@@ -45,12 +45,12 @@
   programs.kitty = {
       enable = true;
       settings = {
-	  font_family = "Agave Nerd Font Mono Regular";
+	        font_family = "IosevkaTerm Nerd Font Mono";
           background_opacity = "0.8";
           font_size = "16";
-	  enable_audio_bell="no";
+	        enable_audio_bell="no";
       };
-      themeFile = "Darkside";
+      themeFile = "gruvbox-dark";
   };
   programs.tmux = {
     enable = true;
@@ -64,7 +64,7 @@
       bind-key j select-pane -D
       bind-key k select-pane -U
       bind-key l select-pane -R
-	  set -g mouse on
+      set -g mouse on
 
       set -g status-position top
       set -g @plugin 'olimorris/tmux-pomodoro-plus'
@@ -73,16 +73,12 @@
 
     plugins = with pkgs.tmuxPlugins; [
         sensible
-		yank
+        yank
         vim-tmux-navigator
         {
-			plugin = dracula;
+			plugin = gruvbox;
 			extraConfig = ''
-				set -g @dracula-show-battery false
-				set -g @dracula-show-powerline true
-                set -g @dracula-fixed-location "Based-City"
-                set -g @dracula-show-fahrenheit false
-				set -g @dracula-refresh-rate 10
+          set -g @tmux-gruvbox 'dark' # or 'light', 'dark-transparent', 'light-transparent'
 			'';
 		}
     ];
